@@ -41,24 +41,24 @@
                                 <div class="row">
                                     <div class="col-lg-2">
                                         <div class="profile-image">
-                                            <a href="#"><img src="images/user.png" alt="user"></a>
+                                            <a href="#"><img src="{{profile.profile_image.url}}" alt="user"></a>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-lg-4">
                                         <div class="form-group">
                                             <label class="form-label">name</label>
-                                            <input class="form-control" type="text" value="Miron Mahmud">
+                                            <input class="form-control" id="full_name" type="text" value="{{ profile.full_name }}">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-lg-4">
                                         <div class="form-group">
                                             <label class="form-label">Email</label>
-                                            <input class="form-control" type="email" value="mironcoder@gmail.com">
+                                            <input class="form-control" id="email" type="email" value="{{ profile.email }}">
                                         </div>
                                     </div>
                                     <div class="col-lg-2">
                                         <div class="profile-btn">
-                                            <a href="change-password.html">change pass.</a>
+                                            <a href="{% url 'accounts:password_change' %}">change pass.</a>
                                         </div>
                                     </div>
                                 </div>
@@ -302,21 +302,26 @@
             <div class="modal-dialog modal-dialog-centered"> 
                 <div class="modal-content">
                     <button class="modal-close" data-bs-dismiss="modal"><i class="icofont-close"></i></button>
-                    <form class="modal-form">
+                    <form class="modal-form" id="edit-profile-form" method="post">
+                        {% csrf_token %}
                         <div class="form-title">
                             <h3>edit profile info</h3>
                         </div>
                         <div class="form-group">
                             <label class="form-label">profile image</label>
-                            <input class="form-control" type="file">
+                            <input class="form-control" type="file" name="profile_image" value="{{ profile.profile_image.url }}">
                         </div>
                         <div class="form-group">
                             <label class="form-label">name</label>
-                            <input class="form-control" type="text" value="Miron Mahmud">
+                            <input class="form-control" type="text" name="full_name" value="{{ profile.full_name }}">
                         </div>
                         <div class="form-group">
                             <label class="form-label">email</label>
-                            <input class="form-control" type="text" value="mironcoder@gmail.com">
+                            <input class="form-control" type="email" name="email" value="{{ profile.email }}">
+                        </div>
+                        <div class="form-group">
+                            <div class="alert alert-success d-none" id="edit-profile-success-alert"></div>
+                            <div class="alert alert-danger d-none" id="edit-profile-error-alert"></div>
                         </div>
                         <button class="form-btn" type="submit">save profile info</button>
                     </form>
@@ -381,5 +386,4 @@
         <!--=====================================
                     MODAL EDIT FORM END
         =======================================-->
-
 {% endblock content %}
